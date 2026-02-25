@@ -1,19 +1,16 @@
 package pages;
 
+import base.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class InventoryPage {
+public class InventoryPage extends BasePage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    public InventoryPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
+    public InventoryPage() {
+       super();
     }
 
     private By addProductButton = By.id("add-product-btn");

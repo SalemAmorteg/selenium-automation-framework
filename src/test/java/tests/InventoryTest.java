@@ -18,8 +18,8 @@ public class InventoryTest extends BaseTest {
 
     @BeforeMethod
     public void setupPages() {
-        dashboardPage = new DashboardPage(driver, wait);
-        inventoryPage = new InventoryPage(driver, wait);
+        dashboardPage = new DashboardPage();
+        inventoryPage = new InventoryPage();
     }
     // Método helper que crea un producto nuevo y devuelve el nombre generado.
     // Esto permite que cada test tenga su propio producto independiente.
