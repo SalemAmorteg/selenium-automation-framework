@@ -1,16 +1,14 @@
 package pages;
 
+import base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
     protected String BASE_URL = "https://stg.tiendo.com.co/";
-
-    private final WebDriver driver;
-    private final WebDriverWait wait;
 
     // Locators
     private final By usernameInput = By.id("username");
@@ -18,10 +16,9 @@ public class LoginPage {
     private final By loginButton = By.tagName("button");
     private final By errorMessage = By.id("login-error");
 
-    //Constructores que recibe el driver y el wait
-    public LoginPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
+    //Constructor que recibe el driver y el wait
+    public LoginPage() {
+        super();
     }
 
     //Metodos

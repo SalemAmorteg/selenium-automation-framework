@@ -1,8 +1,7 @@
 package base;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import driver.DriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -15,37 +14,24 @@ public class BaseTest {
 
     // protected permite que las clases hijas lo usen | Esto es herencia → buena práctica
     protected WebDriver driver;
-    protected WebDriverWait wait;
-    protected String BASE_URL = "https://stg.tiendo.com.co/";
+    protected static final String BASE_URL = "https://stg.tiendo.com.co/";
     protected DashboardPage doLogin(String username, String password) {
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
         loginPage.login(username, password);
         loginPage.waitForRedirection();
-        return new DashboardPage(driver, wait);
+        return new DashboardPage();
     }
 
-    // Cada prueba empieza limpia | Evita dependencia entre tests
     @BeforeMethod
     public void setUp() {
-
-        // Evita descargar manualmente el driver
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        DriverManager.setDriver();
+        driver = DriverManager.getDriver();
         driver.manage().window().maximize();
-
-        // Explicit Wait global (Espera máximo 10 segundos hasta que se cumpla la condición)
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        driver.get(BASE_URL); // URL STG
+        driver.navigate().to(BASE_URL);
     }
 
-    // Evita consumo innecesario de memoria y Tests interdependientes
     @AfterMethod
     public void tearDown() {
-
-        if (driver != null) {
-            driver.quit();
-        }
+        DriverManager.quitDriver();
     }
-
 }

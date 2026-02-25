@@ -16,7 +16,7 @@ public class LoginTest extends BaseTest {
 
         // Creamos objeto de la página Login
         // Le pasamos el driver y el wait que vienen de BaseTest
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
 
         // Ejecución de Metodo
         loginPage.login("isaacamorteguitester", "Testing");
@@ -25,7 +25,7 @@ public class LoginTest extends BaseTest {
         loginPage.waitForRedirection();
 
         // Creamos objeto de la pagina Dashboard
-        DashboardPage dashboardPage = new DashboardPage(driver, wait);
+        DashboardPage dashboardPage = new DashboardPage();
 
         // Validamos que el dashboard esté completamente cargado
         Assert.assertTrue(
@@ -51,7 +51,7 @@ public class LoginTest extends BaseTest {
                 dashboardPage.isDashboardLoaded(),
                 "La sesión se perdió despues de refrescar la pagina"
         );
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
         Assert.assertFalse(
                 loginPage.isLoginPageDisplayed(),
                 "Fue redirigido al login después de hacer refresh"
@@ -70,7 +70,7 @@ public class LoginTest extends BaseTest {
         // ----------- LOGOUT ------------
         dashboardPage.clickLogout();
 
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
 
         //Assert
         Assert.assertTrue(
@@ -95,17 +95,17 @@ public class LoginTest extends BaseTest {
                 "EL dashboard no cargó correctamente"
         );
         dashboardPage.clickLogout();
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
         Assert.assertTrue(
                 loginPage.isLoginPageDisplayed(),
                 "No fue redirigido al login después del logout"
         );
         driver.navigate().back();
-        LoginPage afterBackPage = new LoginPage(driver, wait);
+        LoginPage afterBackPage = new LoginPage();
         driver.navigate().refresh();
-        LoginPage afterRefreshPage = new LoginPage(driver, wait);
+        LoginPage afterRefreshPage = new LoginPage();
         loginPage.navigateToTenderoDashboardUrl();
-        LoginPage afterGetUrl = new LoginPage(driver, wait);
+        LoginPage afterGetUrl = new LoginPage();
         Assert.assertTrue(
                 afterBackPage.isLoginPageDisplayed(),
                 "El botón atrás restauró la sesión (problema de seguridad)"
@@ -119,7 +119,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void loginWithInvalidCredentials() {
         // Crear objeto LoginPage
-        LoginPage loginPage = new LoginPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
         // Intentar login con credenciales incorrectas
         loginPage.login("isaacamorteguitester", "WrongPassword");
 
@@ -138,8 +138,8 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void goToDashboardWithoutLogin() {
-        LoginPage loginPage = new LoginPage(driver, wait);
-        DashboardPage dashboardPage = new DashboardPage(driver, wait);
+        LoginPage loginPage = new LoginPage();
+        DashboardPage dashboardPage = new DashboardPage();
         loginPage.navigateToTenderoDashboardUrl();
 
         //Asserts

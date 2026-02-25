@@ -1,14 +1,14 @@
 package pages;
 
+import base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class DashboardPage {
+public class DashboardPage extends BasePage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+
     public String tenderoDASHBOARD_URL = "https://stg.tiendo.com.co/dashboard/tendero/";
 
     //Locators
@@ -16,9 +16,8 @@ public class DashboardPage {
     private By logoutButton = By.cssSelector("a.tiendo-btn.tiendo-btn-danger.tiendo-btn-block");
 
     //Constructor que recibe el driver y el wait
-    public DashboardPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
+    public DashboardPage() {
+       super();
     }
 
     //Metodos
