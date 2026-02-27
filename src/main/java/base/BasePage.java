@@ -8,6 +8,8 @@ import java.time.Duration;
 
 public class BasePage {
 
+    public String tenderoDASHBOARD_URL = "https://stg.tiendo.com.co/dashboard/tendero/";
+
     protected WebDriver driver;
     protected WebDriverWait wait;
 
