@@ -26,7 +26,7 @@ src
 │ ├── DashboardPage.java
 │ └── InventoryPage.java
 │
-├── tests
+├── smoke
 │ ├── BaseTest.java
 │ └── InventoryTest.java
 
