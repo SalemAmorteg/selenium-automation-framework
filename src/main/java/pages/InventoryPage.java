@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import driver.DriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.WaitHelper;
@@ -46,20 +47,20 @@ public class InventoryPage extends BasePage {
         clickSubmitButton();
     }
 
-    public int getStockForProduct(String productName) {
-
-        searchProduct(productName);
-        waitForProductToAppear(productName);
-        By stockCell = By.xpath(String.format(
-                "//tr[contains(.,'%s')]/td[3]",
-                productName
-        ));
-        WebElement stockElement = WaitHelper.waitForVisibility(stockCell);
-
-        String stockText = stockElement.getText().trim();
-
-        return Integer.parseInt(stockText);
-    }
+//    public int getStockForProduct(String productName) {
+//
+//        searchProduct(productName);
+//        waitForProductToAppear(productName);
+//        By stockCell = By.xpath(String.format(
+//                "//tr[contains(.,'%s')]/td[3]",
+//                productName
+//        ));
+//        WebElement stockElement = WaitHelper.waitForVisibility(stockCell);
+//
+//        String stockText = stockElement.getText().trim();
+//
+//        return Integer.parseInt(stockText);
+//    }
 
 
 
@@ -71,10 +72,10 @@ public class InventoryPage extends BasePage {
 
     private void fillProductForm(String name, String sku, String stockActual, String stockMin) {
 
-        driver.findElement(productNameField).sendKeys(name);
-        driver.findElement(productSKUField).sendKeys(sku);
-        driver.findElement(productActualStockField).sendKeys(stockActual);
-        driver.findElement(productMinStockField).sendKeys(stockMin);
+        DriverManager.getDriver().findElement(productNameField).sendKeys(name);
+        DriverManager.getDriver().findElement(productSKUField).sendKeys(sku);
+        DriverManager.getDriver().findElement(productActualStockField).sendKeys(stockActual);
+        DriverManager.getDriver().findElement(productMinStockField).sendKeys(stockMin);
 
     }
 
@@ -105,50 +106,50 @@ public class InventoryPage extends BasePage {
         search.sendKeys(productName);
     }
 
-    public void waitForProductToAppear(String productName) {
-
-        WaitHelper.waitForVisibility(getProductRow(productName));
-        wait.until(ExpectedConditions.presenceOfElementLocated(getProductRow(productName)));
-    }
-
-    public void waitForProductToDisappear(String productName) {
-        wait.until(ExpectedConditions.numberOfElementsToBe(getProductRow(productName), 0));
-    }
-
-    public boolean isProductPresent(String productName) {
-       return driver.findElements(getProductRow(productName)).size() > 0;
-    }
-
-    public boolean isPriceUpdated(String productName) {
-
-        By updatedRow = By.xpath("//tbody[@id='inventory-table-body']//tr[contains(.,'" + productName + "')]");
-
-        try {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(updatedRow));
-        return true;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void clickEditButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(editButton)).click();
-    }
-
-    public void deleteProduct(String productName) {
-        By productRow = getProductRow(productName);
-
-        // Asegura que el producto existe antes de eliminar
-        wait.until(ExpectedConditions.presenceOfElementLocated(productRow));
-        // Click edit
-        wait.until(ExpectedConditions.elementToBeClickable(editButton)).click();
-        // Click delete
-        wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
-        // Confirmar alerta
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        alert.accept();
-        //Espera a que producto desaparezca del DOM
-        wait.until(ExpectedConditions.numberOfElementsToBe(productRow, 0));
-    }
+//    public void waitForProductToAppear(String productName) {
+//
+//        WaitHelper.waitForVisibility(getProductRow(productName));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(getProductRow(productName)));
+//    }
+//
+//    public void waitForProductToDisappear(String productName) {
+//        wait.until(ExpectedConditions.numberOfElementsToBe(getProductRow(productName), 0));
+//    }
+//
+//    public boolean isProductPresent(String productName) {
+//       return driver.findElements(getProductRow(productName)).size() > 0;
+//    }
+//
+//    public boolean isPriceUpdated(String productName) {
+//
+//        By updatedRow = By.xpath("//tbody[@id='inventory-table-body']//tr[contains(.,'" + productName + "')]");
+//
+//        try {
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(updatedRow));
+//        return true;
+//
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
+//
+//    public void clickEditButton() {
+//        wait.until(ExpectedConditions.elementToBeClickable(editButton)).click();
+//    }
+//
+//    public void deleteProduct(String productName) {
+//        By productRow = getProductRow(productName);
+//
+//        // Asegura que el producto existe antes de eliminar
+//        wait.until(ExpectedConditions.presenceOfElementLocated(productRow));
+//        // Click edit
+//        wait.until(ExpectedConditions.elementToBeClickable(editButton)).click();
+//        // Click delete
+//        wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
+//        // Confirmar alerta
+//        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+//        alert.accept();
+//        //Espera a que producto desaparezca del DOM
+//        wait.until(ExpectedConditions.numberOfElementsToBe(productRow, 0));
+//    }
 }

@@ -21,18 +21,20 @@ public class WaitHelper {
     }
 
     public static WebElement waitForVisibility(By locator) {
-        WebDriverWait wait = new WebDriverWait(
-                DriverManager.getDriver(),
-                Duration.ofSeconds(TIMEOUT)
+        return getWait().until(
+                ExpectedConditions.visibilityOfElementLocated(locator)
         );
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public static WebElement waitForClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(
-                DriverManager.getDriver(),
-                Duration.ofSeconds(TIMEOUT)
+        return getWait().until(
+                ExpectedConditions.elementToBeClickable(locator)
         );
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public static boolean waitForInvisibility(By locator) {
+        return getWait().until(
+                ExpectedConditions.invisibilityOfElementLocated(locator)
+        );
     }
 }

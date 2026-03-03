@@ -24,7 +24,7 @@ public class InventoryTest extends BaseTest {
 //        String productName = "QA_" + System.currentTimeMillis();
 //        String sku = "SKU_" + System.currentTimeMillis();
 //
- //      dashboardPage.goToInventory();
+//       dashboardPage.goToInventory();
 //
 //        inventoryPage.clickAddProductButton();
 //
@@ -41,7 +41,7 @@ public class InventoryTest extends BaseTest {
 //
 //        return productName;
 //    }
-
+//
 //    @Test
 //    public void adminCanCreateNewProduct() {
 //

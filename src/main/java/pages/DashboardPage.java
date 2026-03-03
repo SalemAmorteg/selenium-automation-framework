@@ -1,9 +1,13 @@
 package pages;
 
 import base.BasePage;
+import config.ConfigReader;
+import driver.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.WaitHelper;
+
+import java.sql.Driver;
 
 public class DashboardPage extends BasePage {
 
@@ -21,8 +25,31 @@ public class DashboardPage extends BasePage {
 
     //Metodos
     //Metodo que valida si el dashboard esta cargado correctamente buscando un boton unico.
+    public void navigateToDashboardDirectly() {
+        getDriver().navigate().to(ConfigReader.get("dashboard.url"));
+    }
+
     public boolean isLoaded() {
-      return WaitHelper.waitForVisibility(dashboardIdentifier).isDisplayed();
+        try {
+            return getDriver()
+                    .findElement(dashboardIdentifier)
+                    .isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void waitUntilLoaded() {
+        WaitHelper.waitForVisibility(dashboardIdentifier);
+    }
+
+    public void refreshPage() {
+        getDriver().navigate().refresh();
+    }
+
+    public LoginPage logout() {
+        click(logoutButton);
+        return new LoginPage();
     }
 
     public InventoryPage goToInventory() {
@@ -41,7 +68,7 @@ public class DashboardPage extends BasePage {
     }
 
     public boolean currentUrlContainsDashboard() {
-        return driver.getCurrentUrl().contains("dashboard");
+       return DriverManager.getDriver().getCurrentUrl().contains("dashboard");
     }
 
     public void clickLogout() {
