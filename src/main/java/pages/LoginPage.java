@@ -1,62 +1,71 @@
 package pages;
 
 import base.BasePage;
+import config.ConfigReader;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.WaitHelper;
 
 public class LoginPage extends BasePage {
 
-    protected String BASE_URL = "https://stg.tiendo.com.co/";
-
-    // Locators
+    // 🔹 Locators
+    private By usernameInput = By.id("username");
+    private By passwordInput = By.id("password");
     private By loginButton = By.tagName("button");
-    private final By usernameInput = By.id("username");
-    private final By passwordInput = By.id("password");
-    private final By errorMessage = By.id("login-error");
+    private By errorMessage = By.id("login-error");
 
-    //Constructor que recibe el driver y el wait
-    public LoginPage() {
-        super();
-    }
-
-    //Metodos
-
+    // 🔹 Validation
     public boolean isLoaded() {
-        return WaitHelper.waitForVisibility(loginButton).isDisplayed();
+        return isVisible(loginButton);
     }
 
-    public void enterEmail(String email) {
-        //wait.until: Reintenta cada 500ms buscar el elemento hasta que: El elemento aparece
-        // o pasan 10 seg. | Si no aparece → lanza TimeoutException
-        WaitHelper.waitForVisibility(usernameInput).isDisplayed();
-        driver.findElement(usernameInput).sendKeys(email);
+    public void goBack() {
+        getDriver().navigate().back();
     }
 
-    public void enterPassword(String password) {
-        WaitHelper.waitForVisibility(passwordInput).isDisplayed();
-        driver.findElement(passwordInput).sendKeys(password);
+    public void refreshPage() {
+        getDriver().navigate().refresh();
     }
 
-    public void clickLogin() {
-        WaitHelper.waitForClickable(loginButton).click();
+    public DashboardPage tryAccessDashboard() {
+        getDriver().navigate().to(ConfigReader.get("dashboard.url"));
+        return new DashboardPage();
     }
 
-    public void login(String email, String password) {
+    // 🔹 Actions
+    private void enterEmail(String email) {
+        type(usernameInput, email);
+    }
+
+    private void enterPassword(String password) {
+        type(passwordInput, password);
+    }
+
+    private void clickLogin() {
+        click(loginButton);
+    }
+
+    // 🔹 Business Action
+    public DashboardPage login(String email, String password) {
+
         enterEmail(email);
         enterPassword(password);
         clickLogin();
+
+        DashboardPage dashboardPage = new DashboardPage();
+        dashboardPage.waitUntilLoaded(); // valida que cargó
+
+        return dashboardPage;
     }
 
-    public void waitForRedirection() {
-        wait.until(ExpectedConditions.urlContains("dashboard-tendero"));
+    public void loginWithInvalidCredentials(String email, String password) {
+
+        type(usernameInput, email);
+        type(passwordInput, password);
+        click(loginButton);
     }
 
+    // 🔹 Validation
     public boolean isErrorMessageDisplayed() {
-        return WaitHelper.waitForVisibility(errorMessage).isDisplayed();
-    }
-
-    public void navigateToTenderoDashboardUrl() {
-        driver.navigate().to("https://stg.tiendo.com.co/dashboard-tendero/");
+        return isVisible(errorMessage);
     }
 }

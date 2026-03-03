@@ -5,102 +5,106 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import utils.WaitHelper;
 
 public class SalesPage extends BasePage {
 
-    private static By inventorySearch = By.id("product-search");
-    private By productRow = By.xpath("//tr[contains(.,'%s')]");
-    private By addButton = By.xpath("//tr[contains(.,'%s')]//button[contains(.,'Agregar')]");
-    private By cartItem = By.xpath("//div[@class='cart-item' and contains(.,'%s')]");
+    // 🔹 Locators
+    private By searchField = By.id("product-search");
     private By cartItemCounter = By.className("tiendo-quantity-value");
     private By totalAmount = By.id("cart-total-value");
     private By paymentMethodDropdown = By.id("metodo-pago");
     private By amountReceivedInput = By.id("dinero-recibido");
     private By confirmSaleButton = By.id("confirm-sale-btn");
-    private By saleSummaryModal = By.xpath("(//h3[normalize-space()='Confirmar Venta'])[1]");
+    private By saleSummaryModal = By.xpath("//h3[normalize-space()='Confirmar Venta']");
     private By processSaleButton = By.id("process-sale-final-btn");
     private By successMessage = By.cssSelector(".tiendo-alert.tiendo-alert-success");
 
-    public static boolean isLoaded() {
-        return WaitHelper.waitForVisibility(inventorySearch).isDisplayed();
+    public SalesPage() {
+        super();
+    }
+
+    // 🔹 Sync
+    public void waitUntilLoaded() {
+        find(searchField);
+    }
+
+    public boolean isLoaded() {
+        try {
+            return find(searchField).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // 🔹 Actions
+
+    public void searchProduct(String productName) {
+        type(searchField, productName);
     }
 
     public void addProductToCart(String productName) {
 
-        //  Esperar que barra de búsqueda esté lista
-        WebElement searchInput = WaitHelper.waitForVisibility(inventorySearch);
+        By productNameLocator = By.xpath(
+                "//div[@class='name' and normalize-space(text())='"
+                        + productName + "']"
+        );
 
-        searchInput.clear();
-        searchInput.sendKeys(productName);
+        find(productNameLocator);
 
-        //  Esperar que el producto aparezca en la tabla
-        By dynamicProductName = By.xpath(String.format(
-                "//div[@class='name' and normalize-space(text())='%s']",
-                productName
-        ));
+        By addButtonLocator = By.xpath(
+                "//div[@class='name' and normalize-space(text())='"
+                        + productName +
+                        "']/ancestor::div[contains(@class,'product')]//button[contains(.,'Agregar')]"
+        );
 
-        WaitHelper.waitForVisibility(dynamicProductName);
+        click(addButtonLocator);
 
-        //  Click en botón Agregar del producto específico
-        By dynamicAddButton = By.xpath(String.format(
-                "//div[@class='name' and normalize-space(text())='%s']/ancestor::div[contains(@class,'product')]//button[contains(.,'Agregar')]",
-                productName
-        ));
-
-        WaitHelper.waitForClickable(dynamicAddButton).click();
-
-        //  Esperar que aparezca en carrito
-        By dynamicCartItem = By.xpath(String.format(
-                "//div[contains(@class,'cart-item') and contains(.,'%s')]",
-                productName
-        ));
-
-        WaitHelper.waitForVisibility(dynamicCartItem);
+        waitForProductInCart(productName);
     }
 
-    public void completeSale(String paymentMethod) {
+    public void waitForProductInCart(String productName) {
+        By cartItemLocator = By.xpath(
+                "//div[contains(@class,'cart-item') and contains(.,'"
+                        + productName + "')]"
+        );
+        find(cartItemLocator);
+    }
 
-        //  Validar que haya productos en carrito
-        WebElement counter = WaitHelper.waitForVisibility(cartItemCounter);
-        int itemCount = Integer.parseInt(counter.getText());
+    public int getCartItemCount() {
+        String countText = find(cartItemCounter).getText().trim();
+        return Integer.parseInt(countText);
+    }
 
-        if (itemCount == 0) {
-            throw new RuntimeException("No items in cart. Cannot complete sale.");
+    public String getCartTotal() {
+        return find(totalAmount).getText().trim();
+    }
+
+    public void selectPaymentMethod(String method) {
+        Select select = new Select(find(paymentMethodDropdown));
+        select.selectByVisibleText(method);
+    }
+
+    public void enterAmountReceived(String amount) {
+        WebElement input = find(amountReceivedInput);
+        input.clear();
+        input.sendKeys(amount);
+        input.sendKeys(Keys.TAB);
+    }
+
+    public void clickConfirmSale() {
+        click(confirmSaleButton);
+        find(saleSummaryModal);
+    }
+
+    public void processFinalSale() {
+        click(processSaleButton);
+    }
+
+    public boolean isSaleSuccessful() {
+        try {
+            return find(successMessage).isDisplayed();
+        } catch (Exception e) {
+            return false;
         }
-
-        //  Obtener total
-        WebElement totalElement = WaitHelper.waitForVisibility(totalAmount);
-        String totalText = totalElement.getText()
-                .replace("$", "")
-                .replace(",", "")
-                .trim();
-
-        double total = Double.parseDouble(totalText);
-
-        //  Seleccionar método de pago
-        WebElement dropdown = WaitHelper.waitForClickable(paymentMethodDropdown);
-        Select select = new Select(dropdown);
-        select.selectByVisibleText(paymentMethod);
-
-        //  Ingresar dinero recibido
-        WebElement amountInput = WaitHelper.waitForVisibility(amountReceivedInput);
-        amountInput.clear();
-        amountInput.sendKeys(String.valueOf(total)); // pagamos exacto
-        amountInput.sendKeys(Keys.TAB);
-
-        //  Esperar que botón esté habilitado
-        WaitHelper.waitForClickable(confirmSaleButton).click();
-
-        //  Esperar modal resumen
-        WaitHelper.waitForVisibility(saleSummaryModal);
-
-        //  Procesar y finalizar venta
-        WaitHelper.waitForClickable(processSaleButton).click();
-
-    }
-
-    public String getSuccessMessage() {
-        return WaitHelper.waitForVisibility(successMessage).getText();
     }
 }

@@ -1,50 +1,77 @@
 package pages;
 
 import base.BasePage;
+import config.ConfigReader;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import utils.WaitHelper;
 
 public class DashboardPage extends BasePage {
 
-    //Locators
-    private By inventoryButton = By.cssSelector("a[href='https://stg.tiendo.com.co/inventario-pos']");
-    private By cashRegisterButton = By.cssSelector("a[href='https://stg.tiendo.com.co/cierre-caja-pos']");
-    private By dashboardIdentifier = By.xpath("//h1[contains(text(), 'Dashboard de Tendero')]");
-    private By salesButton = By.cssSelector("a[href='https://stg.tiendo.com.co/ventas-pos']");
-    private By logoutButton = By.cssSelector("a.tiendo-btn.tiendo-btn-danger.tiendo-btn-block");
+    // 🔹 Locators (sin URL hardcodeada)
+    private By dashboardIdentifier =
+            By.xpath("//h1[contains(text(), 'Dashboard de Tendero')]");
 
-    //Constructor que recibe el driver y el wait
-    public DashboardPage() {
-       super();
+    private By inventoryButton =
+            By.cssSelector("a[href*='inventario-pos']");
+
+    private By salesButton =
+            By.cssSelector("a[href*='ventas-pos']");
+
+    private By cashRegisterButton =
+            By.cssSelector("a[href*='cierre-caja-pos']");
+
+    private By logoutButton =
+            By.cssSelector("a.tiendo-btn-danger");
+
+    // 🔹 Navigation
+    public void navigateToDashboardDirectly() {
+        getDriver().navigate().to(ConfigReader.get("dashboard.url"));
     }
 
-    //Metodos
-    //Metodo que valida si el dashboard esta cargado correctamente buscando un boton unico.
+    // 🔹 Synchronization
+    public void waitUntilLoaded() {
+        find(dashboardIdentifier);
+    }
+
+    // 🔹 Validation
     public boolean isLoaded() {
-      return WaitHelper.waitForVisibility(dashboardIdentifier).isDisplayed();
+        try {
+            return getDriver()
+                    .findElement(dashboardIdentifier)
+                    .isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
+    // 🔹 Actions
+    public void refreshPage() {
+        getDriver().navigate().refresh();
+    }
+
+    public LoginPage logout() {
+        click(logoutButton);
+        return new LoginPage();
+    }
+
+    // 🔹 Module Navigation
     public InventoryPage goToInventory() {
-        WaitHelper.waitForClickable(inventoryButton).click();
-        return new InventoryPage();
+        click(inventoryButton);
+        InventoryPage page = new InventoryPage();
+        page.waitUntilLoaded();
+        return page;
     }
 
     public SalesPage goToSales() {
-        WaitHelper.waitForClickable(salesButton).click();
-        return new SalesPage();
+        click(salesButton);
+        SalesPage page = new SalesPage();
+        page.waitUntilLoaded();
+        return page;
     }
 
     public CashRegisterPage goToCashRegister() {
-        WaitHelper.waitForClickable(cashRegisterButton).click();
-        return new CashRegisterPage();
-    }
-
-    public boolean currentUrlContainsDashboard() {
-        return driver.getCurrentUrl().contains("dashboard");
-    }
-
-    public void clickLogout() {
-        WaitHelper.waitForClickable(logoutButton).click();
+        click(cashRegisterButton);
+        CashRegisterPage page = new CashRegisterPage();
+        page.waitUntilLoaded();
+        return page;
     }
 }

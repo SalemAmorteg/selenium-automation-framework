@@ -2,6 +2,7 @@ package utils;
 
 import driver.DriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,18 +22,38 @@ public class WaitHelper {
     }
 
     public static WebElement waitForVisibility(By locator) {
-        WebDriverWait wait = new WebDriverWait(
-                DriverManager.getDriver(),
-                Duration.ofSeconds(TIMEOUT)
+        return getWait().until(
+                ExpectedConditions.visibilityOfElementLocated(locator)
         );
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public static WebElement waitForClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(
-                DriverManager.getDriver(),
-                Duration.ofSeconds(TIMEOUT)
+        return getWait().until(
+                ExpectedConditions.elementToBeClickable(locator)
         );
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public static boolean waitForInvisibility(By locator) {
+        return getWait().until(
+                ExpectedConditions.invisibilityOfElementLocated(locator)
+        );
+    }
+
+    public static WebElement waitForPresence(By locator) {
+        return getWait().until(
+                ExpectedConditions.presenceOfElementLocated(locator)
+        );
+    }
+
+    public static void waitUntil(java.util.function.Function<WebDriver, Boolean> condition) {
+        getWait().until(condition);
+    }
+
+    public static void waitForTextToMatch(By locator, String expectedNormalized) {
+        getWait().until(driver -> {
+            String text = driver.findElement(locator).getText();
+            String normalized = text.replaceAll("[^0-9]", "");
+            return normalized.equals(expectedNormalized);
+        });
     }
 }
