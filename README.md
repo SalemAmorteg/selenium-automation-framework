@@ -1,13 +1,13 @@
-# 🚀 Selenium Automation Framework (Java)
+#  Selenium Automation Framework (Java)
 
-## 📌 Overview
+##  Overview
 This project is a UI Test Automation Framework built using **Java + Selenium WebDriver**, following the **Page Object Model (POM)** design pattern.
 
 It is designed with scalability, maintainability, and clean architecture in mind — progressively evolving toward enterprise-level automation standards.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - Java 17+
 - Selenium WebDriver
@@ -17,7 +17,7 @@ It is designed with scalability, maintainability, and clean architecture in mind
 
 ---
 
-## 🏗 Framework Architecture
+##  Framework Architecture
 
 src
 ├── pages
@@ -30,7 +30,7 @@ src
 │ ├── BaseTest.java
 │ └── InventoryTest.java
 
-### 🔹 Design Principles
+###  Design Principles
 - Separation of concerns
 - Encapsulation of locators
 - Reusable explicit waits
@@ -38,7 +38,7 @@ src
 - Reduced duplication
 
 
-🔄 Recent Improvements
+ Recent Improvements
 
 Refactored InventoryPage for better encapsulation
 
@@ -48,7 +48,7 @@ Improved explicit wait handling
 
 Cleaner test structure
 
-📈 Future Enhancements (Roadmap)
+ Future Enhancements (Roadmap)
 
 Implement ThreadLocal WebDriver (parallel execution ready)
 
@@ -60,7 +60,7 @@ Add CI/CD pipeline (GitHub Actions)
 
 Dockerize execution
 
-🧠 What This Project Demonstrates
+ What This Project Demonstrates
 
 Understanding of Selenium architecture
 
@@ -72,12 +72,18 @@ Git workflow with feature branches
 
 Professional commit conventions
 
-👨‍💻 Author
+ Author
 
 Salem Amortegui
 QA Automation Engineer
 
-## 🚀 How to Run the Tests
+## Test Reports (Allure)
+
+This project uses Allure Reports to generate professional test execution reports.
+
+
+## How to Run the Tests and generate Allure reports:
 
 ```bash
 mvn clean test
+mvn allure:serve 

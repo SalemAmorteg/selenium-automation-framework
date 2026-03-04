@@ -1,16 +1,21 @@
 package tests.smoke;
 
 import base.BaseTest;
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
 
 public class BussinessFlowSmokeTest extends BaseTest {
 
-    private InventoryPage inventoryPage;
-
-    @Test(groups = {"smoke"})
-    public void fullBussinessFLowWorksCorretly() {
+    @Epic("POS System")
+    @Feature("End-to-End Business Flow")
+    @Story("RF-01/RF-04/RF-08/RF-09/RF-10/RF-14/RF-26/RF-29 - As a cashier, I want to execute a complete business flow from login to cash register closure so that the POS system operates correctly end-to-end")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Verify that the full business workflow works correctly, including user login, opening cash register, creating a product, completing a sale, validating inventory reduction, and closing the cash register session")
+    @Owner("Salem Amortegui")
+    @Test(groups = {"smoke", "e2e", "business-flow"})
+    public void fullBusinessFlowWorksCorrectly() {
 
     // Login
     DashboardPage dashboard = doLogin(email, password);
