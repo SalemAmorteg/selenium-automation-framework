@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -18,19 +19,22 @@ public class CashRegisterPage extends BasePage {
     private By modalCloseRegisterConfirmationButton =
             By.cssSelector(".tiendo-btn.close-modal-result");
 
+    @Step("Wait until Cash Register page is fully loaded")
     public void waitUntilLoaded() {
         find(cashRegisterIdentifier);
     }
 
+    @Step("Verify that Cash Register page is loaded when the cash register is closed")
     public boolean isLoadedWhenClosed() {
         return isVisible(openButton);
     }
 
+    @Step("Verify that Cash Register page is loaded when the cash register is opened")
     public boolean isLoadedWhenOpen() {
         return isVisible(closeButton);
     }
 
-    // 🔓 Abrir caja
+    @Step("Open the cash register")
     public void openRegister(String amount) {
 
         click(openButton);
@@ -46,11 +50,12 @@ public class CashRegisterPage extends BasePage {
         click(startShiftButton);
     }
 
+    @Step("Verify that the cash register is open")
     public boolean isRegisterOpen() {
         return isVisible(closeButton);
     }
 
-    // 🔒 Cerrar caja
+    @Step("Close the Cash Register")
     public void closeRegister(String amount) {
 
         WebElement input = find(closeAmountInput);
@@ -64,11 +69,13 @@ public class CashRegisterPage extends BasePage {
         click(closeButton);
     }
 
+    @Step("Confirm cash register closing in modal")
     public void confirmCloseRegisterModal() {
         find(modalSuccessMessage);
         click(modalCloseRegisterConfirmationButton);
     }
 
+    @Step("Verify that the cash register is closed")
     public boolean isRegisterClosed() {
         return isVisible(openButton);
     }

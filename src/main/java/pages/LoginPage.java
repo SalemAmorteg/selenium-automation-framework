@@ -3,7 +3,7 @@ package pages;
 import base.BasePage;
 import config.ConfigReader;
 import org.openqa.selenium.By;
-import utils.WaitHelper;
+import io.qameta.allure.Step;
 
 public class LoginPage extends BasePage {
 
@@ -14,37 +14,45 @@ public class LoginPage extends BasePage {
     private By errorMessage = By.id("login-error");
 
     // 🔹 Validation
+    @Step("Validate that Login page is loaded")
     public boolean isLoaded() {
         return isVisible(loginButton);
     }
 
+    @Step("Navigate back using browser back button")
     public void goBack() {
         getDriver().navigate().back();
     }
 
+    @Step("Refresh the current page")
     public void refreshPage() {
         getDriver().navigate().refresh();
     }
 
+    @Step("Attempt to access Dashboard directly without authentication")
     public DashboardPage tryAccessDashboard() {
         getDriver().navigate().to(ConfigReader.get("dashboard.url"));
         return new DashboardPage();
     }
 
-    // 🔹 Actions
+    // 🔹 Private Actions
+    @Step("Enter email: {email}")
     private void enterEmail(String email) {
         type(usernameInput, email);
     }
 
+    @Step("Enter password")
     private void enterPassword(String password) {
         type(passwordInput, password);
     }
 
+    @Step("Click Login button")
     private void clickLogin() {
         click(loginButton);
     }
 
     // 🔹 Business Action
+    @Step("Login with valid credentials")
     public DashboardPage login(String email, String password) {
 
         enterEmail(email);
@@ -57,6 +65,7 @@ public class LoginPage extends BasePage {
         return dashboardPage;
     }
 
+    @Step("Attempt login with invalid credentials")
     public void loginWithInvalidCredentials(String email, String password) {
 
         type(usernameInput, email);
