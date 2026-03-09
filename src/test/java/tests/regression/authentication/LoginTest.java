@@ -2,6 +2,7 @@ package tests.regression.authentication;
 
 import base.BaseTest;
 import io.qameta.allure.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
@@ -25,6 +26,7 @@ public class LoginTest extends BaseTest {
         assertTrue(dashboard.isLoaded(),
                 "Dashboard did not load after valid login");
     }
+
     @Epic("POS System")
     @Feature("Authentication")
     @Story("RF-01 - As a logged-in user, I want my session to remain active after refreshing the page so that I can continue using the POS system without being logged out")
@@ -121,4 +123,5 @@ public class LoginTest extends BaseTest {
         assertTrue(loginPage.isLoaded(),
                 "User accessed dashboard without authentication");
     }
+
 }

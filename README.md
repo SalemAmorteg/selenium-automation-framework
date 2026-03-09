@@ -86,4 +86,6 @@ This project uses Allure Reports to generate professional test execution reports
 
 ```bash
 mvn clean test
+mvn test -Dgroups=smoke
 mvn allure:serve 
+allure serve allure-results
