@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import utils.WaitHelper;
+import io.qameta.allure.Step;
 
 public class InventoryPage extends BasePage {
 
@@ -23,11 +24,12 @@ public class InventoryPage extends BasePage {
     private By editButton = By.cssSelector(".edit-product");
     private By deleteButton = By.id("delete-product");
 
-    // 🔹 Synchronization
+    @Step("Wait until Cash Register page is fully loaded")
     public void waitUntilLoaded() {
         find(inventoryIdentifier);
     }
 
+    @Step("Verify that Inventory page is displayed")
     public boolean isLoaded() {
         try {
             return getDriver().findElement(inventoryIdentifier).isDisplayed();
@@ -36,8 +38,7 @@ public class InventoryPage extends BasePage {
         }
     }
 
-    // 🔹 Business Actions
-
+    @Step("Create a product")
     public void createProduct(String name,
                               String sku,
                               String price,
@@ -59,6 +60,7 @@ public class InventoryPage extends BasePage {
         waitForProductToAppear(name);
     }
 
+    @Step("Get the actual stock of a product")
     public int getStockForProduct(String productName) {
 
         searchProduct(productName);
@@ -73,6 +75,7 @@ public class InventoryPage extends BasePage {
         return Integer.parseInt(stockText);
     }
 
+    @Step("Delete a product")
     public void deleteProduct(String productName) {
 
         By productRow = getProductRow(productName);
@@ -88,8 +91,7 @@ public class InventoryPage extends BasePage {
         waitForProductToDisappear(productName);
     }
 
-    // 🔹 Helpers
-
+    @Step("Enter product price")
     public void enterPrice(String price) {
         WebElement priceInput = find(productPriceField);
 
@@ -101,10 +103,12 @@ public class InventoryPage extends BasePage {
         priceInput.sendKeys(Keys.TAB);
     }
 
+    @Step("Search a product")
     public void searchProduct(String productName) {
         type(inventorySearch, productName);
     }
 
+    @Step("Wait for product presence")
     public void waitForProductToAppear(String productName) {
 
         By row = getProductRow(productName);
@@ -112,10 +116,12 @@ public class InventoryPage extends BasePage {
         WaitHelper.waitForPresence(row);
     }
 
+    @Step("Wait until product disappear")
     public void waitForProductToDisappear(String productName) {
         WaitHelper.waitForInvisibility(getProductRow(productName));
     }
 
+    @Step("Verify that the product is present")
     public boolean isProductPresent(String productName) {
         return getDriver().findElements(getProductRow(productName)).size() > 0;
     }
@@ -127,6 +133,7 @@ public class InventoryPage extends BasePage {
         );
     }
 
+    @Step("Click the edit product button")
     public void clickEditButton(String productName) {
 
         By editButtonForProduct = By.xpath(
@@ -136,10 +143,12 @@ public class InventoryPage extends BasePage {
         click(editButtonForProduct);
     }
 
+    @Step("Click the submit button to save changes")
     public void clickSubmitButton() {
         click(submitButton);
     }
 
+    @Step("Verify that the product price is updated")
     public boolean isPriceUpdated(String productName, String expectedPrice) {
 
         try {
