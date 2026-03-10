@@ -48,7 +48,7 @@ public class InventoryTest extends BaseTest {
     @Description("Verify that an administrator can successfully modify the information of an existing product and that the updated data is saved and reflected correctly in the system")
     @Owner("Salem Amortegui")
     @Test(groups = {"regression", "inventory"})
-    public void adminCanEditProduct() throws InterruptedException {
+    public void adminCanEditProduct() {
 
         DashboardPage dashboard = doLogin(email, password);
         InventoryPage inventory = dashboard.goToInventory();
@@ -99,7 +99,110 @@ public class InventoryTest extends BaseTest {
                 "El producto no se eliminó correctamente"
         );
     }
+
+    @Epic("POS System")
+    @Feature("Inventory Management")
+    @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that the description field is present in the product creation form as a required field")
+    @Owner("Salem Amortegui")
+    @Test(groups = {"regression", "inventory"})
+    public void descriptionFieldIsPresentInProductCreationForm() {
+
+        DashboardPage dashboard = doLogin(email, password);
+
+        InventoryPage inventory = dashboard.goToInventory();
+
+        inventory.openCreateProductForm();
+
+        Assert.assertTrue(
+                inventory.isDescriptionFieldPresent(),
+                "El campo de descripción no está presente en el formulario de creación de producto"
+        );
+    }
+
+    @Epic("POS System")
+    @Feature("Inventory Management")
+    @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that the category field is present in the product creation form as a required field")
+    @Owner("Salem Amortegui")
+    @Test(groups = {"regression", "inventory"})
+    public void categoryFieldIsPresentInProductCreationForm() {
+
+        DashboardPage dashboard = doLogin(email, password);
+
+        InventoryPage inventory = dashboard.goToInventory();
+
+        inventory.openCreateProductForm();
+
+        Assert.assertTrue(
+                inventory.isCategoryFieldPresent(),
+                "El campo de categoría no está presente en el formulario de creación de producto"
+        );
+    }
+
+    @Epic("POS System")
+    @Feature("Inventory Management")
+    @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that attempting to create a product with a duplicate SKU displays an error message")
+    @Owner("Salem Amortegui")
+    @Issue("8")
+    @Test(groups = {"regression", "inventory"})
+    public void duplicateSKUShowsErrorMessage() {
+
+        DashboardPage dashboard = doLogin(email, password);
+
+        InventoryPage inventory = dashboard.goToInventory();
+
+        // Create first product
+        String productName1 = "QA_Dup_" + System.currentTimeMillis();
+        String sku = "SKU_DUP_" + System.currentTimeMillis();
+
+        inventory.createProduct(productName1, sku, "50.000,00", 20, 5);
+
+        // Attempt to create second product with same SKU
+        String productName2 = "QA_Dup2_" + System.currentTimeMillis();
+
+        inventory.attemptCreateProduct(productName2, sku, "60.000,00", 10, 2);
+
+        Assert.assertTrue(
+                inventory.isErrorMessageDisplayed(),
+                "The error message should be displayed when trying to create a product with a duplicate SKU"
+        );
+    }
+
+    @Epic("POS System")
+    @Feature("Inventory Management")
+    @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that attempting to create a product with a duplicate SKU displays a custom validation message instead of exposing the underlying platform")
+    @Owner("Salem Amortegui")
+    @Issue("9")
+    @Test(groups = {"regression", "inventory"})
+    public void duplicateSKUShowsCustomErrorMessage() {
+
+        DashboardPage dashboard = doLogin(email, password);
+
+        InventoryPage inventory = dashboard.goToInventory();
+
+        // Create first product
+        String productName1 = "QA_Dup_" + System.currentTimeMillis();
+        String sku = "SKU_DUP_" + System.currentTimeMillis();
+
+        inventory.createProduct(productName1, sku, "50.000,00", 20, 5);
+
+        // Attempt to create second product with same SKU
+        String productName2 = "QA_Dup2_" + System.currentTimeMillis();
+
+        inventory.attemptCreateProduct(productName2, sku, "60.000,00", 10, 2);
+
+        String errorMessage = inventory.getErrorMessage();
+
+        Assert.assertFalse(
+                errorMessage.contains("WooCommerce"),
+                "The error message exposes the underlying platform 'WooCommerce' and should be replaced with a custom validation message"
+        );
+    }
 }
-
-
-

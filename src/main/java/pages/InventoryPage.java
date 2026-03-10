@@ -18,11 +18,15 @@ public class InventoryPage extends BasePage {
     private By productActualStockField = By.id("product-stock");
     private By productMinStockField = By.id("product-stock-min");
     private By productPriceField = By.id("product-precio");
+    private By productDescriptionField = By.id("product-description");
+    private By productCategoryField = By.id("product-category");
     private By submitButton = By.id("save-product");
 
     private By inventorySearch = By.id("inventory-search");
     private By editButton = By.cssSelector(".edit-product");
     private By deleteButton = By.id("delete-product");
+
+    private By errorMessage = By.className("tiendo-alert-error");
 
     @Step("Wait until Cash Register page is fully loaded")
     public void waitUntilLoaded() {
@@ -164,6 +168,68 @@ public class InventoryPage extends BasePage {
 
             return true;
 
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Verify that the description field is present")
+    public boolean isDescriptionFieldPresent() {
+        try {
+            find(productDescriptionField);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Verify that the category field is present")
+    public boolean isCategoryFieldPresent() {
+        try {
+            find(productCategoryField);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Open create product form")
+    public void openCreateProductForm() {
+        click(inventoryIdentifier);
+    }
+
+    @Step("Attempt to create a product (for testing errors)")
+    public void attemptCreateProduct(String name,
+                                     String sku,
+                                     String price,
+                                     int stockActual,
+                                     int stockMin) {
+
+        click(inventoryIdentifier);
+
+        type(productNameField, name);
+        type(productSKUField, sku);
+        type(productActualStockField, String.valueOf(stockActual));
+        type(productMinStockField, String.valueOf(stockMin));
+
+        enterPrice(price);
+
+        click(submitButton);
+    }
+
+    @Step("Get the error message from the form")
+    public String getErrorMessage() {
+        try {
+            return find(errorMessage).getText();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @Step("Verify if the error message is displayed")
+    public boolean isErrorMessageDisplayed() {
+        try {
+            return find(errorMessage).isDisplayed();
         } catch (Exception e) {
             return false;
         }
