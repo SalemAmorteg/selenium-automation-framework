@@ -2,30 +2,30 @@ package tests.regression.authentication;
 
 import base.BaseTest;
 import driver.DriverManager;
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.UsersPage;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 
 @Epic("User Management")
 @Feature("Administrator User Operations")
+@Owner("Salem Amortegui")
 public class UserManagementTest extends BaseTest {
 
-    @Test
+    @Test(groups = {"regression", "user-management"})
+    @Severity(SeverityLevel.CRITICAL)
     @Description("Test the complete flow of creating, editing, and deleting a user by an administrator")
-    @Story("As an administrator, I want to manage users so that I can add, modify, and remove user accounts")
+    @Story("RF-04 - As an administrator, I want to manage users so that I can add, modify, and remove user accounts")
     public void testUserCRUDOperations() {
         // Login as administrator
         DashboardPage dashboardPage = doLogin(email, password);
 
         // Navigate to Users page
         UsersPage usersPage = dashboardPage.goToUsers();
+        Assert.assertTrue(usersPage.isLoaded());
 
         // Generate unique test data to avoid conflicts
         String uniqueId = String.valueOf(System.currentTimeMillis());
