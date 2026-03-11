@@ -33,4 +33,22 @@ public abstract class BasePage {
     protected void pressEnter(By locator) {
         WaitHelper.waitForVisibility(locator).sendKeys(org.openqa.selenium.Keys.ENTER);
     }
+
+    protected void selectByVisibleText(By locator, String text) {
+        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(find(locator));
+        select.selectByVisibleText(text);
+    }
+
+    protected void selectByValue(By locator, String value) {
+        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(find(locator));
+        select.selectByValue(value);
+    }
+
+    protected void waitForEnabled(By locator) {
+        WaitHelper.waitForEnabled(locator);
+    }
+
+    protected void clickBody() {
+        click(By.tagName("body"));
+    }
 }

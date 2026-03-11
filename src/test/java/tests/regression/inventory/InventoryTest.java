@@ -106,6 +106,7 @@ public class InventoryTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that the description field is present in the product creation form as a required field")
     @Owner("Salem Amortegui")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/6")
     @Test(groups = {"regression", "inventory"})
     public void descriptionFieldIsPresentInProductCreationForm() {
 
@@ -127,6 +128,7 @@ public class InventoryTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that the category field is present in the product creation form as a required field")
     @Owner("Salem Amortegui")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/7")
     @Test(groups = {"regression", "inventory"})
     public void categoryFieldIsPresentInProductCreationForm() {
 
@@ -179,7 +181,7 @@ public class InventoryTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that attempting to create a product with a duplicate SKU displays a custom validation message instead of exposing the underlying platform")
     @Owner("Salem Amortegui")
-    @Issue("9")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/8")
     @Test(groups = {"regression", "inventory"})
     public void duplicateSKUShowsCustomErrorMessage() {
 
