@@ -56,4 +56,8 @@ public class WaitHelper {
             return normalized.equals(expectedNormalized);
         });
     }
+
+    public static WebElement waitForEnabled(By locator) {
+        return getWait().until(ExpectedConditions.elementToBeClickable(locator));
+    }
 }

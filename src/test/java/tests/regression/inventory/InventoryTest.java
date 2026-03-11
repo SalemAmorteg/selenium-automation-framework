@@ -7,6 +7,10 @@ import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.InventoryPage;
 
+@Epic("POS System")
+@Feature("Inventory Management")
+@Owner("Salem Amortegui")
+
 public class InventoryTest extends BaseTest {
 
     // 🔹 Helper para crear producto desde InventoryPage real
@@ -20,12 +24,9 @@ public class InventoryTest extends BaseTest {
         return productName;
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that an administrator can successfully create a new product by providing name, price, SKU, description, and category, and that the product is saved correctly in the system")
-    @Owner("Salem Amortegui")
     @Test(groups = {"regression", "inventory"})
     public void adminCanCreateNewProduct() {
 
@@ -41,12 +42,9 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-06 - As an administrator, I want to edit existing product information so that I can update prices, descriptions, or categories when needed")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that an administrator can successfully modify the information of an existing product and that the updated data is saved and reflected correctly in the system")
-    @Owner("Salem Amortegui")
     @Test(groups = {"regression", "inventory"})
     public void adminCanEditProduct() {
 
@@ -73,12 +71,9 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-06 - As an administrator, I want to delete existing products so that discontinued or incorrect items are removed from the system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that an administrator can successfully delete an existing product and that the product is no longer available in the inventory list")
-    @Owner("Salem Amortegui")
     @Test(groups = {"regression", "inventory"})
     public void adminCanDeleteProduct() {
 
@@ -100,12 +95,10 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that the description field is present in the product creation form as a required field")
-    @Owner("Salem Amortegui")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/6")
     @Test(groups = {"regression", "inventory"})
     public void descriptionFieldIsPresentInProductCreationForm() {
 
@@ -121,12 +114,10 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that the category field is present in the product creation form as a required field")
-    @Owner("Salem Amortegui")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/7")
     @Test(groups = {"regression", "inventory"})
     public void categoryFieldIsPresentInProductCreationForm() {
 
@@ -142,13 +133,10 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that attempting to create a product with a duplicate SKU displays an error message")
-    @Owner("Salem Amortegui")
-    @Issue("8")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/8")
     @Test(groups = {"regression", "inventory"})
     public void duplicateSKUShowsErrorMessage() {
 
@@ -173,13 +161,10 @@ public class InventoryTest extends BaseTest {
         );
     }
 
-    @Epic("POS System")
-    @Feature("Inventory Management")
     @Story("RF-04 - As an administrator, I want to create a new product with all required details so that it becomes available for sale in the POS system")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that attempting to create a product with a duplicate SKU displays a custom validation message instead of exposing the underlying platform")
-    @Owner("Salem Amortegui")
-    @Issue("9")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/8")
     @Test(groups = {"regression", "inventory"})
     public void duplicateSKUShowsCustomErrorMessage() {
 

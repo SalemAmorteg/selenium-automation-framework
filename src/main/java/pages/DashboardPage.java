@@ -4,6 +4,7 @@ import base.BasePage;
 import config.ConfigReader;
 import org.openqa.selenium.By;
 import io.qameta.allure.Step;
+import pages.UsersPage;
 
 public class DashboardPage extends BasePage {
 
@@ -22,6 +23,9 @@ public class DashboardPage extends BasePage {
 
     private By logoutButton =
             By.cssSelector("a.tiendo-btn-danger");
+
+    private By usuariosButton =
+            By.cssSelector("a[href*='usuarios']");
 
     @Step("Navigate directly to Dashboard URL")
     public void navigateToDashboardDirectly() {
@@ -75,6 +79,14 @@ public class DashboardPage extends BasePage {
     public CashRegisterPage goToCashRegister() {
         click(cashRegisterButton);
         CashRegisterPage page = new CashRegisterPage();
+        page.waitUntilLoaded();
+        return page;
+    }
+
+    @Step("Navigate to Users module")
+    public UsersPage goToUsers() {
+        click(usuariosButton);
+        UsersPage page = new UsersPage();
         page.waitUntilLoaded();
         return page;
     }

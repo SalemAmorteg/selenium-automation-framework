@@ -4,7 +4,7 @@
     <inspection_tool class="groupsTestNG" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="groups">
         <value>
-          <list size="11">
+          <list size="12">
             <item index="0" class="java.lang.String" itemvalue="regression" />
             <item index="1" class="java.lang.String" itemvalue="authentication" />
             <item index="2" class="java.lang.String" itemvalue="smoke" />
@@ -16,6 +16,7 @@
             <item index="8" class="java.lang.String" itemvalue="e2e" />
             <item index="9" class="java.lang.String" itemvalue="inventory" />
             <item index="10" class="java.lang.String" itemvalue="business-flow" />
+            <item index="11" class="java.lang.String" itemvalue="user-management" />
           </list>
         </value>
       </option>
