@@ -1,10 +1,7 @@
-package tests.regression.authentication;
+package tests.regression.users;
 
 import base.BaseTest;
-import driver.DriverManager;
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
