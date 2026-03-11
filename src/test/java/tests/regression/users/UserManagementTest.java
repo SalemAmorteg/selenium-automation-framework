@@ -16,6 +16,7 @@ public class UserManagementTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Test the complete flow of creating, editing, and deleting a user by an administrator")
     @Story("RF-04 - As an administrator, I want to manage users so that I can add, modify, and remove user accounts")
+    @Issue("https://github.com/SalemAmorteg/selenium-automation-framework/issues/9")
     public void testUserCRUDOperations() {
         // Login as administrator
         DashboardPage dashboardPage = doLogin(email, password);
